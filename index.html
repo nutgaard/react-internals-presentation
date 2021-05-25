@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DI - Workshop</title>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/bekk/remark/master/dist/bekk.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="bekk-black">
+
+<textarea id="source">
+    class: front-page
+    # React - Behind the scenes
+    <img src="images/react-logo.svg" class="logo" />
+
+    ???
+
+    # Agenda
+    -
+
+    1. JSX/TSX vs React
+    2. JSX/TSX - Javascript syntax extension
+        1. JSX/TSX - Hva er det egentlig
+        2. JSX/TSX Pragma
+    3. React
+        1. React platformer
+        2. React arkitektur
+    4. Litt kode :hurray:
+    -
+
+    Vi starter ut med å snakke litt om JSX/TSX vs React.
+    Hva er JSX/TSX, og hvordan skiller det seg fra react som bibliotek osv.<br />
+
+    Deretter beveger vi oss gradvis over til å snakke om react-biblioteket, litt bakgrunn, mulighetsrommet,
+    og litt om hvordan biblioteket vi alle bruker er sydd sammen.
+
+    Deretter tenkte jeg vi skulle titte litt på noe kode som har blitt skrevet i noen workshops der formålet har vært å lage sin egne react-klone.<br />
+    Klonene er såklart ikke fullverdige erstartninger for react, er trossalt 14k commits i det repo nå. Så det blir litt mye å gå gjennom.<br />
+    Men tanken og håpet er at folk skal få en konseptuell forståelse av hvordan react fungerer under-the-hood.
+
+    ---
+
+    class: center middle
+    # JSX/TSX vs React
+
+    ???
+
+    Så vi hopper rett i det, og starter med JSX/TSX vs React
+
+
+    ---
+
+    # JSX/TSX vs React
+
+    ```typescript
+    function Menu() {
+      return (
+        <section className="menu">
+            <p>Menu here</p>
+            <p>More here</p>
+        </div>
+      );
+    }
+    ```
+
+    ???
+
+    # JSX/TSX vs React
+
+    JSX/TSX og React går sammen som hånd i hanske, noe som kanskje er veldig naturlig. Siden JSX/TSX bli introdusert og popularisert ved hjelp av react.
+    Det er nok også derfor vi ofte blander disse to sammen, og behandler de som om det er en og samme ting.
+
+    Men det er altså ikke. :D
+
+    JSX/TSX er en syntaks utvidelse av javascript som lar oss skrive fin html-ish kode midt inne i javascript koden våres.
+    Men det har i bunn og grunn ingen hard kobling til react, og dette skal vi utnytte litt senere.
+
+    Men la oss se litt på hva skjer med  JSX/TSX koden vår.
+
+    ---
+
+    # JSX/TSX vs React
+
+    ```typescript
+    function Menu() {
+      return (
+        <section className="menu">
+            <p>Menu here</p>
+            <p>More here</p>
+        </div>
+      );
+    }
+    ```
+    ```typescript
+    function Menu() {
+      return React.createElement(
+        'section',
+        { className: 'menu' },
+        React.createElement("p", null, "Menu here"),
+        React.createElement("p", null, "More here")
+      );
+    }
+    ```
+    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUMg9gOzigEMoBeKACkyigB5JVF8pkAbIsMAOSIFsJSwfnhDAAfNRp0ADmICyEEVAAWEeBFoB6WZJq1ZcnOpVqN2iXs0NYTPBICUQA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
+        Babel REPL
+    </a>
+
+    ???
+
+    # JSX/TSX vs React
+
+    Alt som skjer er egentlig en mapping fra JSX til ett funksjon-kall som typisk for oss er `React.createElement`.
+    Første argumentet er "komponenten" vi vil rendre, fult av props og tilslutt `children` som variadic argument.
+
+    Bruker dere create-react-app så er det fort babel som står for denne jobben,
+    og hvis man ønsker å leke med hvordan det fungerer så kan jeg anbefale å bruke babel sin repl.
+
+    Om vi har lyst til å lage en liten react-klone, så kan vi jo alltids la klonen eksportere funksjoner med samme navn som react.
+    Men om vi ønsker oss noe litt mer særegent så har vi også mulighet til det.
+
+    Så jeg nevnte at vi skulle utnytte det faktum at JSX/TSX ikke var hardt knyttet til react.
+    Og dette kan vi gjøre med å spesifisere en JSX-pragma. (Pragma er synonymt med "directive", og er instruks til transformatorer om hva som skal gjøres.)
+
+    ---
+
+    # JSX/TSX vs React - Pragma
+    `.babelrc.json`
+    ```json
+    ["@babel/plugin-transform-react-jsx", {
+      "pragma": "Preact.h",
+      "pragmaFrag": "Preact.Fragment"
+    }]
+    ```
+    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUAegFS6gAEArMADygAV4IBDVAOgAspdsd8jSyAxeWgOZUa9WAz6CAthAB2sVu0zIA9jLhRaUALxQAFJihQAPJFSJVUZABtaYMADla0rcGkyQwAHwHDxgA6eALKyIFBMEDRG2AE-hkYBgco0YREQUTFx2Kaw5jLeAJRAA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
+        Babel REPL
+    </a>
+
+    ???
+
+    Så ett eksempel på hvordan man kan endre på denne JSX-pragma greia.
+
+    `Preact` er en eksisterende react-klone, så om man ønsker å bruke JSX og Preact så kan man konfigurere det sånn.
+    Poenget er at vi veldig enkelt kan endre på hvordan babel transformasjonen endrer på koden vår, og dermed også få den til å bruke våre helt egne greier om vi ønsker det.
+    Men poenget er at om vi sender inn konfigen til babel så vil plutselig koden vår bli transformert på en litt annen måte.
+    Og det kan jo være veldig kjekt.
+
+    Man har også mulighet til å bare legge en kommentar i hver jsx/tsx fil.
+
+    ---
+
+    class: center middle
+    # React
+
+    ???
+
+    Sånn, ferdig med intro til JSX og vi kan prate litt mer om react. Som tross alt er grunnen til at vi sikkert er her.
+
+    ---
+
+    # React
+
+    ```typescript
+    import { useState } from 'react';
+    import { render } from 'react-dom';
+    ```
+
+    ???
+
+    Så de fleste har sikkert lagt merke til at vi alltid må ha to forskjellige avhengigheter når vi jobber med react.
+    På samme måte som JSX ikke er hard-koblet til react, så er ikke react hardkoblet til en spesifik plattform.
+    Det er nok absolutt mest brukt mot nettlesere, og derfor har nok de fleste av oss sett den `react-dom` pakken.
+
+    Men i teorioen kan man bytte ut `react-dom` med en annen pakke og fortsatt bruke alle konseptene vi har lært når vi jobbet med `react-dom`.
+
+    ---
+
+    # React
+
+    ```typescript
+    import { useState } from 'react';
+    import { render } from 'react-dom';
+    ```
+
+    ```typescript
+    import { useState } from 'react';
+    import { render } from 'ink';
+    ```
+
+    ```typescript
+    import { useState } from 'react';
+    import { render } from '@react-gtk/binding';
+    ```
+
+    ```typescript
+    import { useState } from 'react';
+    import { render } from 'redocx';
+    ```
+
+    ???
+
+    Mange har nok hørt om `react-native` som en sånn mulighet.
+    I eksemplet her brukes ett bibliotek som heter `ink`, som lar oss skrive kommando-linje-verktøy i react.
+
+    Det finnes renderer-pakker for:
+    * command line (`ink`, `react-blessed`)
+    * desktop (`react-gtk`)
+    * tv'er
+    * hardware-skisser
+    * generering av filer (`react-pdf`, `redocx`)
+    * som integrasjon til andre (`react-figma`, `react-unity`)
+
+    [Kilde](https://github.com/chentsulin/awesome-react-renderer)
+
+    Det er dog verdt å nevne at DOM-primitivene (e.g div, span etc) er spesifike for `react-dom` og andre pakker har andre primitiver.
+
+    ---
+
+
+    # React
+
+    BILDE AV `react`, `react-dom` og `react-reconciler` avhengigshets-graf.
+    Og gjerne litt forklaring rundt hvordan de bindes sammen.
+    E.g ReactDOM.render lager en reconciler med react-dom-spesifik config
+
+    ???
+
+    Vi har snakket om to-deling mellom react og react-dom, men vi har fortsatt ikke kommet inn på hvor selve magien til react ligger.
+    Per i dag ligger den i en pakke som heter `react-reconciler` (Se github repo), og det er denne modulen som er selve stjerna.
+
+    Hvor `react` holder på en del datastrukturer som er felles uavhengig av renderer,
+    og pakker som `react-dom` holder styr på "plattform"-spesifike ting (e.g hvordan lage dom-noder etc),
+    så er det `react-reconciler` som fungerer som bindeleddet mellom de to.
+
+    Ikke bare det, men det er også her selve algoritmen som gjør at react faktisk har såpass god ytelse som det har ligger.
+
+    Hvis man titter litt på github-repoet til react så vil man se at det er mange andre pakker, f.eks scheduler pakker,
+    som er noe litt nyere som er laget for å støtte oppunder concurrency mode, litt forskjellige test-pakker og andre utility pakker.
+    Samt litt flere renderer-pakker. Disse kommer vi ikke til å gå noe nærmere innpå nå. Men for det overinteresserte så kan det være gøy å titte på.
+
+    ---
+
+    # Reconciler
+
+    ???
+
+    Overgang fra stack til fiber basert reconciler i react@16.
+    Hva er forskjellen, hvorfor ble det gjort, og hvorfor vi ikke trenger å bry oss vesentlig om det http://isfiberreadyyet.com/
+
+    Stack-basert reconciler kan være ett veldig nyttig verktøy for å få en konseptuell forståelse av hvordan react fungerer, så vi starter med å titte litt på den.
+
+    Deretter skal vi titte litt nærmere på fiber-trees, og hvordan de kan bli implementer. Og hvilke fordeler de åpner opp for.
+
+    ---
+
+    # Stack basert reconciler
+
+    ---
+
+    # Fiber basert reconciler
+
+    ---
+
+    # Kode kode kode
+
+    ---
+
+    class: center middle
+    # The end
+
+</textarea>
+
+<script src="https://cdn.rawgit.com/bekk/remark/master/vendor/remark.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var slideshow = remark.create({
+        ratio: '16:9',
+        highlightLanguage: 'typescript',
+        highlightStyle: 'monokai',
+        navigation: {
+            scroll: false
+        }
+    });
+</script>
+</body>
+</html>

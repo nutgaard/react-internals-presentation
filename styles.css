@@ -1,0 +1,19 @@
+.logo {
+    height: 250px;
+    mix-blend-mode: difference;
+    /*filter: grayscale(1);*/
+    margin-bottom: 12rem;
+    animation: logo-spin infinite 20s linear;
+}
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.remark-slide .remark-slide-content .remark-code {
+    font-family: monospace;
+}
