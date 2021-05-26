@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>DI - Workshop</title>
-    <link rel="stylesheet" href="https://cdn.rawgit.com/bekk/remark/master/dist/bekk.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bekk/remark/dist/bekk.css">
+<!--    <link rel="stylesheet" href="vendor/bekk-theme.css">-->
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="bekk-black">
@@ -58,7 +59,7 @@
         <section className="menu">
             <p>Menu here</p>
             <p>More here</p>
-        </div>
+        </section>
       );
     }
     ```
@@ -87,7 +88,7 @@
         <section className="menu">
             <p>Menu here</p>
             <p>More here</p>
-        </div>
+        </section>
       );
     }
     ```
@@ -101,7 +102,7 @@
       );
     }
     ```
-    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUMg9gOzigEMoBeKACkyigB5JVF8pkAbIsMAOSIFsJSwfnhDAAfNRp0ADmICyEEVAAWEeBFoB6WZJq1ZcnOpVqN2iXs0NYTPBICUQA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
+    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=GYVwdgxgLglg9mABAWQKZhACgJSIN4BQiiATqlCCUpkcYgDwDOq08SEANgIaOMByXALaoAvACJhGMQD5adOvQAO0tBkQALVGXoB6ZXPkNlyOGQ1bUu_fN3NWCWcWwBuAgF8gA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
         Babel REPL
     </a>
 
@@ -110,7 +111,7 @@
     # JSX/TSX vs React
 
     Alt som skjer er egentlig en mapping fra JSX til ett funksjon-kall som typisk for oss er `React.createElement`.
-    Første argumentet er "komponenten" vi vil rendre, fult av props og tilslutt `children` som variadic argument.
+    Første argumentet er "komponenten" vi vil rendre, fulgt av props og tilslutt `children` som variadic argument.
 
     Bruker dere create-react-app så er det fort babel som står for denne jobben,
     og hvis man ønsker å leke med hvordan det fungerer så kan jeg anbefale å bruke babel sin repl.
@@ -131,7 +132,7 @@
       "pragmaFrag": "Preact.Fragment"
     }]
     ```
-    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUAegFS6gAEArMADygAV4IBDVAOgAspdsd8jSyAxeWgOZUa9WAz6CAthAB2sVu0zIA9jLhRaUALxQAFJihQAPJFSJVUZABtaYMADla0rcGkyQwAHwHDxgA6eALKyIFBMEDRG2AE-hkYBgco0YREQUTFx2Kaw5jLeAJRAA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
+    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUAegFS6gAEArMADygAV4IBDVAOgAspdsd8jSyAxeWgOZUa9WAz6CAthAB2sVu0wAzEDNSIA9jKgBZWSAAUASigBvTFEtWasEPG0GLV5wB5I6rVGQAbWmDAAcrTSALzA0jIgwAB8Ts7xUC4ADtF6kVBMEDQu2ClxCVbJqRo0GVkQOXkFidjusJoysQlGWAC-QA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
         Babel REPL
     </a>
 
@@ -148,6 +149,40 @@
 
     ---
 
+    # JSX/TSX vs React - Pragma
+    `.babelrc.json`
+    ```json
+    ["@babel/plugin-transform-react-jsx", {
+      "pragma": "Preact.h",
+      "pragmaFrag": "Preact.Fragment"
+    }]
+    ```
+
+    ```typescript
+    function Menu() {
+      return Preact.h(
+        'section',
+        { className: 'menu' },
+        Preact.h("p", null, "Menu here"),
+        Preact.h("p", null, "More here")
+      );
+    }
+    ```
+    <a target="_blank" href="https://babeljs.io/repl/#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=EQVwzgpgBGAuBOBLAxrYBuAUAegFS6gAEArMADygAV4IBDVAOgAspdsd8jSyAxeWgOZUa9WAz6CAthAB2sVu0wAzEDNSIA9jKgBZWSAAUASigBvTFEtWasEPG0GLV5wB5I6rVGQAbWmDAAcrTSALzA0jIgwAB8Ts7xUC4ADtF6kVBMEDQu2ClxCVbJqRo0GVkQOXkFidjusJoysQlGWAC-QA&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.14.3&externalPlugins=">
+        Babel REPL
+    </a>
+
+    ???
+
+    Vi vil da få ut noe alà dette eksemplet.
+    Nå er ikke `Fragment` ibruk i eksemplet her, men om dere noen gang har skrevet en "tom" tag, så er det denne komponenten som blir brukt.
+
+    **SIDE-NOTE**: `React.createElement` er også en veldig enkel funksjon, så om man virkelig ønsker så kan man skrive seg bort fra denne også.
+    Men koden begynner da å bli veldig verbos. Trenger minimum `$$typeof`, `ref` og `type`, men blir gjerne mer om man har props og children.
+    Om man noen gang har lurt på hva typescript typen `ReactElement` er, så er det resultatet av å kalle `createElement`.
+
+    ---
+
     class: center middle
     # React
 
@@ -160,7 +195,7 @@
     # React
 
     ```typescript
-    import { useState } from 'react';
+    import React, { useState } from 'react';
     import { render } from 'react-dom';
     ```
 
@@ -177,28 +212,33 @@
     # React
 
     ```typescript
-    import { useState } from 'react';
+    import React, { useState } from 'react';
     import { render } from 'react-dom';
     ```
 
     ```typescript
-    import { useState } from 'react';
+    import React, { useState } from 'react';
+    import { AppRegistry } from 'react-native';
+    ```
+
+    ```typescript
+    import React, { useState } from 'react';
     import { render } from 'ink';
     ```
 
     ```typescript
-    import { useState } from 'react';
+    import React, { useState } from 'react';
     import { render } from '@react-gtk/binding';
     ```
 
     ```typescript
-    import { useState } from 'react';
+    import React, { useState } from 'react';
     import { render } from 'redocx';
     ```
 
     ???
 
-    Mange har nok hørt om `react-native` som en sånn mulighet.
+    Mange har nok hørt om `react-native` som en alternativ "renderer", avhengig av hvilken "host"/"platform" man ønsker at appen skal kjøre på.
     I eksemplet her brukes ett bibliotek som heter `ink`, som lar oss skrive kommando-linje-verktøy i react.
 
     Det finnes renderer-pakker for:
@@ -218,49 +258,195 @@
 
     # React
 
-    BILDE AV `react`, `react-dom` og `react-reconciler` avhengigshets-graf.
-    Og gjerne litt forklaring rundt hvordan de bindes sammen.
-    E.g ReactDOM.render lager en reconciler med react-dom-spesifik config
+    <div class="react-ecosystem">
+        <div></div>
+        <div></div>
+        <div class="box">react</div>
+        <div></div>
+        <div></div>
+        <div class="box">react-dom</div>
+        <div></div>
+        <img src="images/react-logo.svg" class="ecosystem-center" />
+        <div></div>
+        <div class="box">react-art</div>
+        <div></div>
+        <div class="box">react-reconciler</div>
+        <div></div>
+        <div class="box">scheduler</div>
+        <div></div>
+    </div>
 
     ???
 
+    Bilde av de pakkene vi interesserer oss for (ja, react-art er bare med for symmetri), men tenk at kanskje `react-server`, `ink` eller en annen renderer er der istedet.
+
     Vi har snakket om to-deling mellom react og react-dom, men vi har fortsatt ikke kommet inn på hvor selve magien til react ligger.
-    Per i dag ligger den i en pakke som heter `react-reconciler` (Se github repo), og det er denne modulen som er selve stjerna.
+    Per i dag ligger den i en pakke som heter `react-reconciler` (Se github repo), og det er denne modulen som er selve stjerna om vi skal lage vår egen renderer.
+    Etter alt å dømme ser det ut til at `react-dom` har mye av den samme koden per i dag, men mulig facebook-folka har noen planer om å endre på dette?
 
-    Hvor `react` holder på en del datastrukturer som er felles uavhengig av renderer,
-    og pakker som `react-dom` holder styr på "plattform"-spesifike ting (e.g hvordan lage dom-noder etc),
-    så er det `react-reconciler` som fungerer som bindeleddet mellom de to.
+    Det er uansett greit å ha en liten oversikt over ansvarsområdene til pakkene når vi skal begynne å grave litt i koden.
 
-    Ikke bare det, men det er også her selve algoritmen som gjør at react faktisk har såpass god ytelse som det har ligger.
+    `react` holder på en litt datastrukturer (f.eks `Component`) og andre felles ting uavhengig av renderer.
+    `react-dom`/`react-art`  holder styr på "host"/"plattform"-spesifike ting (e.g hvordan lage dom-noder etc).
+    `react-reconciler` (og da også `react-dom`) har mye av virtuell-dom magien. Siden `react-dom` inneholder det meste herifra per i dag, så er ikke det noe vi aktivt bruker.
+    `scheduler` er react sin interne scheduler, og brukes allerede av `react-dom` i dag for å prioritere ulike endringer vi gjør i appen vår.
 
-    Hvis man titter litt på github-repoet til react så vil man se at det er mange andre pakker, f.eks scheduler pakker,
+    Hvis man titter litt på github-repoet til react så vil man se at det er mange andre pakker, og det kan være veldig interessant å grave i.
     som er noe litt nyere som er laget for å støtte oppunder concurrency mode, litt forskjellige test-pakker og andre utility pakker.
     Samt litt flere renderer-pakker. Disse kommer vi ikke til å gå noe nærmere innpå nå. Men for det overinteresserte så kan det være gøy å titte på.
 
+    For nå la oss titte litt på hva en reconciler er.
+
     ---
+    class: cols two
 
     # Reconciler
 
+    .col[
+    ```html
+    <section class="menu">
+        <p>Menu item 1</p>
+        <p>Menu item 2</p>
+    </section>>
+    ```
+    ]
+    .col[
+    ```html
+    <section class="menu">
+        <p>Menu item 1</p>
+        <p>Updated item 2</p>
+    </section>>
+    ```
+    ]
+
     ???
 
-    Overgang fra stack til fiber basert reconciler i react@16.
-    Hva er forskjellen, hvorfor ble det gjort, og hvorfor vi ikke trenger å bry oss vesentlig om det http://isfiberreadyyet.com/
+    Reconcileren sin jobb (uavhengig av hvor den ligger) er å finne ut hva som må gjøres ved endringer.
+    Hvis vi tar utgangspunkt i eksemplet ovenfor, så kan ser vi at det meste er likt.
+    Og vi ønsker derfor at "react" finner ut av dette, og finner den "mest optimale" måten å oppdatere DOM'en vår på.
 
-    Stack-basert reconciler kan være ett veldig nyttig verktøy for å få en konseptuell forståelse av hvordan react fungerer, så vi starter med å titte litt på den.
+    **CAVEAT**: algoritmen som brukes er ikke optimal da denne har kubisk kjøretid (n^3).
+    Men ved hjelpe av noen smarte heuristikker så fungerer det likevel veldig bra O(n):
+    * forskjellige type komponent, så forkastes hele subtreet
+    * "key" prop'en er stabil
 
-    Deretter skal vi titte litt nærmere på fiber-trees, og hvordan de kan bli implementer. Og hvilke fordeler de åpner opp for.
+    Anbefaler å se youtube filmen hvor de introduserer react for første gang, der de snakker om akkurat dette.
+
+    ---
+    class: cols two
+
+    # Reconciler
+
+    .col[
+    ```html
+    <section class="menu">
+        <p>Menu item 1</p>
+        <p>Menu item 2</p>
+    </section>>
+    ```
+    ]
+    .col[
+    ```html
+    <section class="menu">
+        <p>Menu item 1</p>
+        <p>Updated item 2</p>
+    </section>>
+    ```
+    ]
+
+    ```typescript
+    domNode.textContent = 'Updated item 2'
+    ```
+
+    ???
+
+    Men ja, det eneste vi egentlig ønsker at react skal gjøre i dette tilfellet er noe av dette.
+    Og i dette eksemplet er det også det som skjer siden vi ikke har endret på mye annet.
+
+    Så dette var hovedformålet til reconciler-biten.
+    Så er det verdt å nevne at react har gjort en overgang fra stack-basert reconciler til fiber basert reconciler i react@16 (sept 2017).
+    Men konseptuelt så trenger vi ikke å tenke for mye på det enda, for i de fleste tilfeller trenge man ikke å forholde seg til den endringer.
+
+    **SIDE-NOTE**: http://isfiberreadyyet.com/ er interessant her, med tanke på hvordan react-teamet gjorde endringen og tracket prosessen.
+
+    Mer om react: https://overreacted.io/react-as-a-ui-runtime/#reconciliation
 
     ---
 
     # Stack basert reconciler
 
-    ---
+    Pseudo-kode for hvordan `render` funksjon kunne se ut i en stack-basert reconciler:
 
+    ```typescript
+    function render(element: ReactElement, root: HTMLElement) {
+        const node = createDomNode(element);
+        element.props.children.forEach((child: ReactElement) => {
+            render(child, node);
+        });
+        root.appendChild(node);
+    }
+    ```
+
+    ???
+
+    Er en rekursiv funksjon som sådan utnytter javascript stacken (hence-the-name), og det har ett par negative bi-effekter.
+    Siden javascript er single-threaded, så har man ikke muligheten til å stoppe prosessen når den først har startet. :O
+
+
+    React-docs fra stack-reconciler: https://reactjs.org/docs/implementation-notes.html
+    Forklaring i bloggpost om stack-reconciler: https://dev.to/burhanuday/react-internals-part-2-reconciliation-algorithm-until-react-15-8aa
+
+    ---
+    class: cols two small-second
     # Fiber basert reconciler
+
+    .col[
+    ```typescript
+    function render(element: ReactElement, root: HTMLElement) {
+        work = createRootFiber(element, root);
+    }
+    function loop(deadline: RequestIdleCallbackDeadline) {
+      if (work !== null && timeRemaining(deadline)) {
+        work = performWork(work);
+      }
+      if (isDone(work)) { commit(); }
+      requestIdleCallback(loop);
+    }
+
+    ```
+    ]
+    .col[
+    <img src="images/fiber1.png" />
+    ]
+    <blockquote>
+        <p>
+            Fiber is re-implementation of the stack, specialized for React components. <br />
+            You can think of a single fiber as a virtual stack frame.
+        </p>
+        <cite>— Some random dude</cite>
+    </blockquote>
+
+    ???
+
+    Introdusert i react@16 for å blandt:
+    * gi muligheten til å splitte arbeidsoppgaver i "chunks"
+    * prioritere og gjenbruke arbeid som er påstartet
+    *
+
+
+    Om arkitekturen: https://github.com/acdlite/react-fiber-architecture
+    Step-by-step (workshoppen): https://pomb.us/build-your-own-react/
+    Blog post av noen som har fulgt samme workshop: https://engineering.hexacta.com/didact-fiber-incremental-reconciliation-b2fe028dcaec
+    Litt om bakgrunnen for bruken linked-list i fiber: https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7
+    Ende en bloggpost: https://blog.ag-grid.com/inside-fiber-an-in-depth-overview-of-the-new-reconciliation-algorithm-in-react/
 
     ---
 
     # Kode kode kode
+
+    ???
+
+    Mer kommentarer
 
     ---
 
@@ -269,7 +455,8 @@
 
 </textarea>
 
-<script src="https://cdn.rawgit.com/bekk/remark/master/vendor/remark.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/bekk/remark/vendor/remark.min.js" type="text/javascript"></script>
+<!--<script src="vendor/remark.min.js" type="text/javascript"></script>-->
 <script type="text/javascript">
     var slideshow = remark.create({
         ratio: '16:9',

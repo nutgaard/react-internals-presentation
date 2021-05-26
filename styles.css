@@ -17,3 +17,30 @@
 .remark-slide .remark-slide-content .remark-code {
     font-family: monospace;
 }
+
+.react-ecosystem {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-row-gap: 1rem;
+    text-align: center;
+}
+.react-ecosystem .ecosystem-center{
+    width: 8rem;
+    margin: 0 auto;
+}
+.react-ecosystem .box {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 1.25rem 0;
+    background-color: #404040;
+    border: 2px solid floralwhite;
+}
+
+.cols.small-second .col {
+    width: 69% !important;
+}
+.cols.small-second .col + .col {
+    width: 29% !important;
+}
